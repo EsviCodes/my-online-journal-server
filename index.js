@@ -4,6 +4,7 @@ const cors = require("cors");
 const db = require("./db");
 const journalModel = require("./journal/journal-model");
 const journalRouter = require("./journal/journal-router");
+const authRouter = require("./auth/auth-router");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -15,5 +16,6 @@ const parserMiddleware = bodyParser.json();
 app
   .use(corsMiddleware)
   .use(parserMiddleware)
+  .use(authRouter)
   .use(journalRouter)
   .listen(port, () => console.log("listening on port " + port));
