@@ -17,7 +17,7 @@ const parserMiddleware = bodyParser.json();
 app
   .use(corsMiddleware)
   .use(parserMiddleware)
-  .use(authRouter)
   .use(userRouter)
+  .use(authRouter)
   .use(journalRouter)
   .listen(port, () => console.log("listening on port " + port));

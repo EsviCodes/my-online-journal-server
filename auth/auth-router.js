@@ -3,19 +3,40 @@ const { toJWT, toData } = require("./jwt");
 
 const router = new Router();
 
-// define endpoints here
-
+// Endpoints
 router.post("/login", (req, res, next) => {
-  // Checks if the text property doens't exists or is an empty string. If so, it sends an error.
   if (req.body.email === "" || req.body.password === "") {
     res.status(400).send({
       message: "Please supply a valid email and password"
     });
   }
-  // If validation passes
-  res.send({
-    jwt: toJWT({ userId: 1 })
-  });
+
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+    .then(user => {
+      if (!user) {
+        res.status(400).send({
+          message: "Email or password incorrect, sorry"
+        });
+      } else if (bcrypt.compareSync(req.body.password, user.password)) {
+        res.send({
+          jwt: toJWT({ userId: user.id })
+        });
+      } else {
+        res.status(400).send({
+          message: "Email or password incorrect, sorry"
+        });
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send({
+        message: "Something went wrong"
+      });
+    });
 });
 
 router.get("/secret-endpoint", (req, res) => {
