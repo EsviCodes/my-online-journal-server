@@ -1,11 +1,10 @@
 const { Router } = require("express");
-const journalModel = require("./journal-model");
+const JournalModel = require("./journal-model");
 
 const router = new Router();
 
 router.get("/journalentries", (req, res, next) => {
-  journalModel
-    .findAll()
+  JournalModel.findAll()
     .then(entries => {
       res.json(entries);
     })
@@ -13,8 +12,7 @@ router.get("/journalentries", (req, res, next) => {
 });
 
 router.post("/journalentries", (req, res, next) => {
-  journalModel
-    .create(req.body)
+  JournalModel.create(req.body)
     .then(entry => res.json(entry))
     .catch(next);
 });
