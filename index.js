@@ -1,16 +1,19 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const db = require("./db");
-const imageModel = require("./image/image-model");
-const imageRouter = require("./image/image-router");
+const journalModel = require("./journal/journal-model");
+const journalRouter = require("./journal/journal-router");
 
 const app = express();
 const port = process.env.PORT || 4000;
 
-// Middleware
-app.use(bodyParser.json());
+// Middleware declarations
+const corsMiddleware = cors();
+const parserMiddleware = bodyParser.json();
 
-//Image Route
-app.use(imageRouter);
-
-app.listen(port, () => console.log("listening on port " + port));
+app
+  .use(corsMiddleware)
+  .use(parserMiddleware)
+  .use(journalRouter)
+  .listen(port, () => console.log("listening on port " + port));
