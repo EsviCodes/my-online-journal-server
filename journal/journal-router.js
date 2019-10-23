@@ -1,22 +1,25 @@
 const { Router } = require("express");
-const JournalModel = require("./journal-model");
-const EntryModel = require("../entry/entry-model");
+const Journal = require("./journal-model");
+const Entry = require("../entry/entry-model");
 const authMiddleWare = require("../auth/auth-middleware");
 
 const router = new Router();
 
+// Authentication
+//router.use(authMiddleWare);
+
 // Get all the journals
 router.get("/journals", (req, res, next) => {
-  JournalModel.findAll()
-    .then(entries => {
-      res.json(entries);
+  Journal.findAll()
+    .then(journals => {
+      res.json(journals);
     })
     .catch(next);
 });
 
 // Get a specific journal
 router.get("/journals/:id", (req, res, next) => {
-  JournalModel.findByPk(req.params.id, { include: [EntryModel] })
+  Journal.findByPk(req.params.id, { include: [Entry] })
     .then(journal => {
       res.send(journal);
     })
@@ -25,14 +28,14 @@ router.get("/journals/:id", (req, res, next) => {
 
 // Create a new Journal
 router.post("/journals", (req, res, next) => {
-  JournalModel.create(req.body)
+  Journal.create(req.body)
     .then(entry => res.json(entry))
     .catch(next);
 });
 
 // Edit a Journal
 router.put("/journals/:id", (req, res, next) => {
-  JournalModel.findByPk(req.params.id)
+  Journal.findByPk(req.params.id)
     .then(journal => {
       if (journal) {
         journal.update(req.body).then(journal => res.json(journal));
@@ -45,7 +48,7 @@ router.put("/journals/:id", (req, res, next) => {
 
 // Delete a Journal
 router.delete("/journals/:id", (req, res, next) => {
-  JournalModel.destroy({
+  Journal.destroy({
     where: {
       id: req.params.id
     }
