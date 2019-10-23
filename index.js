@@ -4,6 +4,7 @@ const cors = require("cors");
 // const db = require("./db");
 // const journalModel = require("./journal/journal-model");
 //const userModel = require("./user/user-model");
+const entryModel = require("./entry/entry-model");
 const journalRouter = require("./journal/journal-router");
 const authRouter = require("./auth/auth-router");
 const userRouter = require("./user/user-router");

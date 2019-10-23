@@ -5,8 +5,7 @@ const db = require("../db");
 const JournalModel = db.define("journal", {
   title: Sequelize.STRING,
   date: Sequelize.DATE,
-  summery: Sequelize.TEXT,
-  entry: Sequelize.TEXT
+  summery: Sequelize.TEXT
 });
 
 module.exports = JournalModel;
