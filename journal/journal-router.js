@@ -32,7 +32,7 @@ router.post("/journals", (req, res, next) => {
 
 // Edit a Journal
 router.put("/journals/:id", (req, res, next) => {
-  JournalModel.findByPk(req.params.teamId)
+  JournalModel.findByPk(req.params.id)
     .then(journal => {
       if (journal) {
         journal.update(req.body).then(journal => res.json(journal));
